@@ -1,5 +1,6 @@
 const state = {
-    postList: []
+    postList: [],
+    isPostListLoaded: false
 }
 
 export default state

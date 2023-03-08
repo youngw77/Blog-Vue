@@ -1,15 +1,16 @@
 <template>
   <div id="app">
-
+    <blog-container></blog-container>
   </div>
 </template>
 
 <script>
-
+import BlogContainer from './components/BlogContainer.vue';
 
 export default {
   name: 'App',
-  components: {},
+  components: {BlogContainer},
+  methods: {},
 }
 </script>
 
