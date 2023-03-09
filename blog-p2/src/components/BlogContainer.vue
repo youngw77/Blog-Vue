@@ -11,6 +11,19 @@
             <div>
                 {{ post.body }}
             </div>
+            <div v-for="co in post.comments" :key="'co' + co.id" style="background-color; lightgrey; margin-top: 10px">
+                <div>
+                    {{ co.email }}
+                </div>
+                <div style="display: flex">
+                    <div>
+                        {{ co.name }}
+                    </div>
+                    <div>
+                        {{ co.body }}
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -27,20 +40,36 @@ export default{
     data(){
         return{
             list: [],
+            // comments: []
         };
         
     },
     methods:{
         click(index){
+            
+
             if(this.list[index].isOpen){
-                console.log(1)
                 this.list[index].isOpen = false;
             } else{
-                console.log(2)
                 this.list[index].isOpen = true;
+                this.getPostComments(index);
             }
-            console.log(index, this.list[index].isOpen);
-            console.log(index);
+        },
+        getPostComments(index){
+            let postId = this.list[index].id;
+            let params = {
+                params: {
+                    postId, // postId:postId
+                }
+            }
+            this.$axios.get('https://jsonplaceholder.typicode.com/comments', params)
+            // this.$axios.get(`https://jsonplaceholder.typicode.com/comments?postId=${postId}`)
+            // this.$axios.get('https://jsonplaceholder.typicode.com/comments?postId=' + params)
+            .then((response) => {
+                // console.log("comments", response);
+                // this.comments = response.data;
+                this.list[index].comments = response.data;
+            })
         }
     },
     computed: {
@@ -74,6 +103,7 @@ export default{
                         this.list.push({
                             ...this.getPostList[i],
                             isOpen: false,
+                            comments: []
                         });
                     }
                     console.log("list", this.list);
